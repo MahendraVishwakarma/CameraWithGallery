@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CameraGallery" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dTA-I2-Y11">
+                                <rect key="frame" x="0.0" y="517" width="375" height="73"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="73" id="FVe-qK-ykl"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1q1-Le-Xcl">
+                                    <size key="itemSize" width="87" height="69"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Ftj-Yx-VBb" customClass="imageCell" customModule="CameraGallery" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="2" width="87" height="69"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="87" height="69"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xNB-lT-XIJ">
+                                                    <rect key="frame" x="0.0" y="0.0" width="87" height="69"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="xNB-lT-XIJ" secondAttribute="bottom" id="KEi-d0-JxP"/>
+                                            <constraint firstItem="xNB-lT-XIJ" firstAttribute="top" secondItem="Ftj-Yx-VBb" secondAttribute="top" id="Zr5-0T-BoU"/>
+                                            <constraint firstItem="xNB-lT-XIJ" firstAttribute="leading" secondItem="Ftj-Yx-VBb" secondAttribute="leading" id="h1R-SR-0Vu"/>
+                                            <constraint firstAttribute="trailing" secondItem="xNB-lT-XIJ" secondAttribute="trailing" id="qeN-g4-hTR"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="image" destination="xNB-lT-XIJ" id="Ojk-09-wcI"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="301-md-ZHe"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="AUm-UW-JJT"/>
+                                </connections>
+                            </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RAW-B5-cVj">
+                                <rect key="frame" x="158.5" y="600" width="58" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="57" id="Jlk-Gi-pqI"/>
+                                    <constraint firstAttribute="width" constant="58" id="sbn-oh-mRb"/>
+                                </constraints>
+                                <state key="normal" image="camera"/>
+                                <connections>
+                                    <action selector="captureImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4m9-h9-hFE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="RAW-B5-cVj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="8q8-D3-4gl"/>
+                            <constraint firstItem="RAW-B5-cVj" firstAttribute="top" secondItem="dTA-I2-Y11" secondAttribute="bottom" constant="10" id="D17-pe-4dT"/>
+                            <constraint firstItem="dTA-I2-Y11" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ECT-ll-7zv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="RAW-B5-cVj" secondAttribute="bottom" constant="10" id="YpW-cQ-qcq"/>
+                            <constraint firstItem="dTA-I2-Y11" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yrp-DE-lZm"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="dTA-I2-Y11" id="hmP-4a-ALc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="camera" width="80.139129638671875" height="80.139129638671875"/>
+    </resources>
+</document>
