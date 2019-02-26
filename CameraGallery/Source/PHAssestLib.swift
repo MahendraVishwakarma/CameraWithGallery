@@ -16,8 +16,10 @@ class PHAssestLib{
     class func fetchImage(completion: @escaping ((Array<UIImage>) -> ())) {
         
         let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: true)]
-        fetchOptions.fetchLimit = 10
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: false)]
+        fetchOptions.fetchLimit = 30
+        fetchOptions.includeAssetSourceTypes = [.typeCloudShared,.typeiTunesSynced,.typeUserLibrary]
+        
         
         
         let images = PHAsset.fetchAssets(with: .image, options: fetchOptions) // PHAsset.fetchAssets(with: fetchOptions)

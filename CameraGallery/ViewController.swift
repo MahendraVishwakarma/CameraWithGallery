@@ -60,6 +60,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        imageiew.image = photos[indexPath.row]
+    }
+    
     func setupCaptureSession(){
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
