@@ -31,6 +31,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
 
     }
+    @IBOutlet weak var imageiew: UIImageView!
     
     var captureSession = AVCaptureSession()
     var backCamera : AVCaptureDevice?
@@ -38,7 +39,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var currentCamera : AVCaptureDevice?
     var photoOutput : AVCapturePhotoOutput?
     var cameraPreviewLayer : AVCaptureVideoPreviewLayer?
-    var image:UIImage?
+   
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -46,6 +47,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             self.photos.append(contentsOf: images)
             self.collectionView.reloadData()
         }
+        
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -120,7 +122,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 extension ViewController:AVCapturePhotoCaptureDelegate{
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if let imageData = photo.fileDataRepresentation(){
-            image = UIImage(data: imageData)
+            imageiew.image = UIImage(data: imageData)
             
         }
     }

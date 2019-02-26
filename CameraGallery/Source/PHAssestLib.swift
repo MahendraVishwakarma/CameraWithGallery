@@ -14,10 +14,17 @@ class PHAssestLib{
     
    static var photos = [UIImage]()
     class func fetchImage(completion: @escaping ((Array<UIImage>) -> ())) {
-        let images = PHAsset.fetchAssets(with: .image, options: nil) // PHAsset.fetchAssets(with: fetchOptions)
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: true)]
+        fetchOptions.fetchLimit = 10
+        
+        
+        let images = PHAsset.fetchAssets(with: .image, options: fetchOptions) // PHAsset.fetchAssets(with: fetchOptions)
         
         let options = PHImageRequestOptions()
         options.version = .original
+        
         
         for countIndex in 0..<images.count {
             let assest = images.object(at: countIndex)
