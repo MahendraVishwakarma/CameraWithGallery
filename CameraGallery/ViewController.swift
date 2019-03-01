@@ -22,16 +22,17 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var photos : PHFetchResult<PHAsset>?
     
     @IBOutlet weak var collectionView: UICollectionView!
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
     
         setupCaptureSession()
-        setupDevice()
+        setupDevice(cameraType: AVCaptureDevice.Position.front)
         setupInputOutput()
         setupPreviewLayer()
         startRunningCaptureSession()
         
-
     }
     @IBOutlet weak var imageiew: UIImageView!
     
@@ -85,6 +86,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                             }
             
                          cell.image.image = image
+            
                         }
         
        
@@ -97,23 +99,24 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func setupCaptureSession(){
+        captureSession = AVCaptureSession()
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
     }
 
-    func setupDevice(){
+    func setupDevice(cameraType:AVCaptureDevice.Position){
         
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.unspecified)
         let devices = deviceDiscoverySession.devices
         
         for device in devices{
-            if device.position == AVCaptureDevice.Position.back{
-                backCamera = device
-            }else if device.position == AVCaptureDevice.Position.front{
-                frontCamera = device
+            if device.position == cameraType{
+                currentCamera = device
+                break
             }
         }
-        currentCamera = backCamera
+        
+       // currentCamera = backCamera
     }
     
     func setupInputOutput(){
@@ -140,9 +143,24 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         cameraPreviewLayer?.frame = self.view.bounds
         self.view.layer.insertSublayer(cameraPreviewLayer!, at: 0)
         
-        
     }
     
+    
+    
+    @IBAction func swapButton(_ sender: Any) {
+       
+        captureSession.removeInput(captureSession.inputs.first!)
+        cameraPreviewLayer?.removeFromSuperlayer()
+        
+        let camera = currentCamera?.position == AVCaptureDevice.Position.back ? AVCaptureDevice.Position.front:AVCaptureDevice.Position.back
+        
+        setupCaptureSession()
+        setupDevice(cameraType: camera)
+        setupInputOutput()
+        setupPreviewLayer()
+        startRunningCaptureSession()
+        
+    }
     func startRunningCaptureSession(){
         captureSession.startRunning()
     }

@@ -20,35 +20,10 @@ class PHAssestLib{
         //fetchOptions.fetchLimit = 30
         fetchOptions.includeAssetSourceTypes = [.typeCloudShared,.typeiTunesSynced,.typeUserLibrary]
         
-        
-        
         let images = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        
-        
+
         completion(images)
         
-//        for countIndex in 0..<images.count {
-//            let assest = images.object(at: countIndex)
-//
-//            PHImageManager.default().requestImageData(for: assest, options: options) {
-//                data, uti, orientation, info in
-//
-//                guard let data =  data else{
-//                    return
-//                }
-//
-//                guard let image = UIImage(data: data) else{
-//                    return
-//                }
-//
-//                self.photos.append(image)
-//                if(self.photos.count == images.count){
-//                    completion(self.photos)
-//                }
-//
-//            }
-//
-//        }
         
     }
     

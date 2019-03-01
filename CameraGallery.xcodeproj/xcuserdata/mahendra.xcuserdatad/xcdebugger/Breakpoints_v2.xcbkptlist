@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CameraGallery/Source/PHAssestLib.swift"
-            timestampString = "573144591.396094"
+            timestampString = "573147908.639361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "setupPhotos()"
             landmarkType = "7">
          </BreakpointContent>
