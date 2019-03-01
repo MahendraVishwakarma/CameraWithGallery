@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Photos
 
 
 class imageCell:UICollectionViewCell{
@@ -17,7 +18,8 @@ class imageCell:UICollectionViewCell{
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    var photos = [UIImage]()
+   // var photos = [UIImage]()
+    var photos : PHFetchResult<PHAsset>?
     
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
@@ -44,24 +46,54 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     override func viewDidAppear(_ animated: Bool) {
         
         PHAssestLib.fetchImage { (images) in
-            self.photos.append(contentsOf: images)
+           self.photos = images
             self.collectionView.reloadData()
         }
         
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        guard let count = photos?.count else{
+         return 0
+        }
+        
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! imageCell
-        cell.image.image = photos[indexPath.row]
+        
+        let assest = photos?.object(at: indexPath.row)
+        
+        let options = PHImageRequestOptions()
+        options.version = .current
+        options.resizeMode = .fast
+        options.deliveryMode = .opportunistic
+        options.isSynchronous = true
+        options.isNetworkAccessAllowed = false
+        
+        PHImageManager.default().requestImageData(for: assest!, options: options) {
+                            data, uti, orientation, info in
+            
+                            guard let data =  data else{
+                                return
+                            }
+            
+                            guard let image = UIImage(data: data) else{
+                                return
+                            }
+            
+                         cell.image.image = image
+                        }
+        
+       
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        imageiew.image = photos[indexPath.row]
+        let cell = collectionView.cellForItem(at: indexPath) as! imageCell
+        imageiew.image = cell.image.image
     }
     
     func setupCaptureSession(){

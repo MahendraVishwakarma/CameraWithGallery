@@ -13,43 +13,69 @@ import UIKit
 class PHAssestLib{
     
    static var photos = [UIImage]()
-    class func fetchImage(completion: @escaping ((Array<UIImage>) -> ())) {
+    class func fetchImage(completion: @escaping ((PHFetchResult<PHAsset>) -> ())) {
         
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: false)]
-        fetchOptions.fetchLimit = 30
+        //fetchOptions.fetchLimit = 30
         fetchOptions.includeAssetSourceTypes = [.typeCloudShared,.typeiTunesSynced,.typeUserLibrary]
         
         
         
-        let images = PHAsset.fetchAssets(with: .image, options: fetchOptions) // PHAsset.fetchAssets(with: fetchOptions)
-        
-        let options = PHImageRequestOptions()
-        options.version = .original
+        let images = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         
         
-        for countIndex in 0..<images.count {
-            let assest = images.object(at: countIndex)
+        completion(images)
+        
+//        for countIndex in 0..<images.count {
+//            let assest = images.object(at: countIndex)
+//
+//            PHImageManager.default().requestImageData(for: assest, options: options) {
+//                data, uti, orientation, info in
+//
+//                guard let data =  data else{
+//                    return
+//                }
+//
+//                guard let image = UIImage(data: data) else{
+//                    return
+//                }
+//
+//                self.photos.append(image)
+//                if(self.photos.count == images.count){
+//                    completion(self.photos)
+//                }
+//
+//            }
+//
+//        }
+        
+    }
+    
+    class func setupPhotos() {
+        let fetchOptions = PHFetchOptions()
+        let smartAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: fetchOptions)
+        let topLevelUserCollections = PHCollectionList.fetchTopLevelUserCollections(with: fetchOptions)
+        let allAlbums:NSArray = [topLevelUserCollections, smartAlbums]
+        
+        
+        allAlbums.enumerateObjects {(assetCollection, index, stop) in
             
-            PHImageManager.default().requestImageData(for: assest, options: nil) {
-                data, uti, orientation, info in
-                
-                guard let data =  data else{
-                    return
-                }
-                
-                guard let image = UIImage(data: data) else{
-                    return
-                }
-                
-                self.photos.append(image)
-                if(self.photos.count == images.count){
-                    completion(self.photos)
-                }
-                
+            if #available(iOS 9.0, *) {
+                fetchOptions.fetchLimit = 1
             }
             
+            let assets = PHAsset.fetchAssets(in: assetCollection as! PHAssetCollection, options: fetchOptions)
+            if let _ = assets.firstObject {
+                
+               // let assetObject = MYSpecialAssetContainerStruct(asset: assets)
+               // self.myDataArray.append(assetObject)
+            }
         }
+//        self.myDataArray.sortInPlace {(a, b) in
+//            return a.asset.localizedTitle < b.asset.localizedTitle
+//        }
+       // tableView.reloadData()
     }
 }
 
