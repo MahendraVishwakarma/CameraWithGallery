@@ -42,9 +42,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var currentCamera : AVCaptureDevice?
     var photoOutput : AVCapturePhotoOutput?
     var cameraPreviewLayer : AVCaptureVideoPreviewLayer?
+    var currentFlashMode : CurrentFlashMode!
    
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        currentFlashMode = .off
         
         PHAssestLib.fetchImage { (images) in
            self.photos = images
@@ -145,7 +148,27 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
     }
     
+    func getSettings(camera: AVCaptureDevice, flashMode: CurrentFlashMode) -> AVCapturePhotoSettings {
+        let settings = AVCapturePhotoSettings()
+        
+        if camera.hasFlash {
+            switch flashMode {
+            case .auto: settings.flashMode = .auto
+            case .on: settings.flashMode = .on
+            default: settings.flashMode = .off
+            }
+        }
+        return settings
+    }
     
+    
+    @IBAction func btnFlash(_ sender: Any) {
+        
+        currentFlashMode = .on
+       // let currentSettings = getSettings(camera: currentCamera!, flashMode: .auto)
+        //photoOutput?.capturePhoto(with: currentSettings, delegate: self)
+        
+    }
     
     @IBAction func swapButton(_ sender: Any) {
        
@@ -166,7 +189,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     @IBAction func captureImage(_ sender: Any) {
-        let settings = AVCapturePhotoSettings()
+        let settings = getSettings(camera: currentCamera!, flashMode: currentFlashMode)
+        
         photoOutput?.capturePhoto(with: settings, delegate: self)
         
         
@@ -180,4 +204,10 @@ extension ViewController:AVCapturePhotoCaptureDelegate{
             
         }
     }
+}
+
+enum CurrentFlashMode {
+    case off
+    case on
+    case auto
 }
