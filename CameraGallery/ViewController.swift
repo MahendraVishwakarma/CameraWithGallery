@@ -164,7 +164,22 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @IBAction func btnFlash(_ sender: Any) {
         
-        currentFlashMode = .on
+       
+        
+        let alert = UIAlertController(title: "Select Flash Option", message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Auto Mode", style: .default) { _ in
+             self.currentFlashMode = .auto
+        })
+        
+        alert.addAction(UIAlertAction(title: "On Mode", style: .default) { _ in
+             self.currentFlashMode = .on
+        })
+        alert.addAction(UIAlertAction(title: "Off Mode", style: .default) { _ in
+             self.currentFlashMode = .off
+        })
+        
+        present(alert, animated: true)
        // let currentSettings = getSettings(camera: currentCamera!, flashMode: .auto)
         //photoOutput?.capturePhoto(with: currentSettings, delegate: self)
         
@@ -172,8 +187,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @IBAction func swapButton(_ sender: Any) {
        
-        captureSession.removeInput(captureSession.inputs.first!)
-        cameraPreviewLayer?.removeFromSuperlayer()
+        if(cameraPreviewLayer != nil){
+            captureSession.removeInput(captureSession.inputs.first!)
+            cameraPreviewLayer?.removeFromSuperlayer()
+        }
+        
         
         let camera = currentCamera?.position == AVCaptureDevice.Position.back ? AVCaptureDevice.Position.front:AVCaptureDevice.Position.back
         
